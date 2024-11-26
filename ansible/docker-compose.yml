@@ -1,5 +1,5 @@
 services:
-  wbeml:
+  grp4api:
     image: virtus/david:ad_project_api
     container_name: david-ad-project-api
     ports:
