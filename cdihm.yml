@@ -15,11 +15,11 @@
     - name: "Remove local image"
       docker_image:
         state: absent
-        name: "virtus/david:projetapi"
+        name: "virtus/david:ad_project_api"
 
     - name: "Pull Dockerhub images"
       docker_image:
-        name: "virtus/david:projetapi"
+        name: "virtus/david:ad_project_api"
         source: pull
 
     - name: "Copy docker-compose.yml"
