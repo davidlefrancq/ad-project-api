@@ -1,0 +1,7 @@
+services:
+  wbeml:
+    image: virtus/david:ad_project_api
+    container_name: david-ad-project-api
+    ports:
+      - "8394:80"
+    restart: always
