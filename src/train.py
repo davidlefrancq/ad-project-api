@@ -7,7 +7,7 @@ script_dir = os.path.dirname(__file__)
 
 class ModelTrainer:
   def __init__(self):
-    self.best_params = None
+    self.best_params = {}
     self._load_best_params()
     self.models = {
       'linear': {
@@ -66,8 +66,9 @@ class ModelTrainer:
         
     for model_name, model_data in self.models.items():
       model = model_data['model']
-      model_params = self.best_params[model_name]
-      model.set_params(**model_params)
+      if self.best_params[model_name]:
+        model_params = self.best_params[model_name]
+        model.set_params(**model_params)
       model.fit(x_train, y_train)
       
       model_path = os.path.join(script_dir, f'model/{model_name}.pkl')
