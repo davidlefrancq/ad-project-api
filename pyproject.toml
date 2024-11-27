@@ -17,3 +17,5 @@ distribution = false
 [tool.pdm.scripts]
 start = "python src/main.py"
 prepare = "python src/prepare.py"
+optimize = "python src/optimize.py"
+train = "python src/train.py"
