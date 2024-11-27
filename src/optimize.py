@@ -51,7 +51,7 @@ class HyperparameterOptimizer:
       }
     }
     self.best_models = {}
-    self.best_params = None
+    self.best_params = {}
     self.x_train = None
     self.y_train = None
     self.x_test = None
@@ -108,6 +108,9 @@ class HyperparameterOptimizer:
         'test_r2': r2_score(self.y_test, test_pred)
       }
       results.append(result)
+      
+      # Add best hyperparameters to best_params
+      self.best_params[name] = grid_search.best_params_
       
       print(f"Best parameters for {name}: {grid_search.best_params_}")
       print(f"Test R² score: {result['test_r2']:.4f}")

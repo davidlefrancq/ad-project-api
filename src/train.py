@@ -66,7 +66,7 @@ class ModelTrainer:
         
     for model_name, model_data in self.models.items():
       model = model_data['model']
-      model_params = self.best_params
+      model_params = self.best_params[model_name]
       model.set_params(**model_params)
       model.fit(x_train, y_train)
       
