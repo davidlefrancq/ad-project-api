@@ -1,55 +1,64 @@
 import os
 import joblib
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.svm import SVR
+from xgboost import XGBRegressor
+from lightgbm import LGBMRegressor
 
 script_dir = os.path.dirname(__file__)
 
 class ModelTrainer:
   def __init__(self):
-    self.best_params = {}
-    self._load_best_params()
     self.models = {
-      'linear': {
+      'LinearRegression': {
         'model': LinearRegression(),
+        'params': {}  # Pas d'hyperparamètres à optimiser
+      },
+      'Ridge': {
+        'model': Ridge(),
         'params': {}
       },
-      # 'ridge': {
-      #   'model': Ridge(),
-      #   'params': {
-      #     'alpha': [0.1, 1.0, 10.0],
-      #     'solver': ['auto', 'svd', 'cholesky']
-      #   }
-      # },
-      # 'lasso': {
-      #   'model': Lasso(),
-      #   'params': {
-      #     'alpha': [0.1, 1.0, 10.0],
-      #     'selection': ['cyclic', 'random']
-      #   }
-      # },
-      # 'rf': {
-      #   'model': RandomForestRegressor(),
-      #   'params': {
-      #     'n_estimators': [100, 200],
-      #     'max_depth': [10, 20, 30, None],
-      #     'min_samples_split': [2, 5],
-      #     'min_samples_leaf': [1, 2]
-      #   }
-      # },
-      # 'svr': {
-      #   'model': SVR(),
-      #   'params': {
-      #     'kernel': ['linear', 'rbf'],
-      #     'C': [0.1, 1, 10],
-      #     'epsilon': [0.1, 0.2, 0.5]
-      #   }
-      # }
+      'Lasso': {
+        'model': Lasso(),
+        'params': {}
+      },
+      'ElasticNet': {
+        'model': ElasticNet(),
+        'params': {}
+      },
+      'RandomForest': {
+        'model': RandomForestRegressor(),
+        'params': {}
+      },
+      'GradientBoosting': {
+        'model': GradientBoostingRegressor(),
+        'params': {}
+      },
+      'XGBRegressor': {
+        'model': XGBRegressor(),
+        'params': {}
+      },
+      'LGBMRegressor': {
+        'model': LGBMRegressor(),
+        'params': {}
+      },
+      'SVR': {
+        'model': SVR(),
+        'params': {}
+      }
     }
+    self._load_best_params()
+
 
   def _load_best_params(self):
-    best_params_path = os.path.join(script_dir, 'model/best_params.pkl')
-    self.best_params = joblib.load(best_params_path)
+    for model_name in self.models.keys():
+      best_params_path = os.path.join(script_dir, f'model/{model_name}_best_params.pkl')
+      if os.path.exists(best_params_path):
+        self.models[model_name]['params'] = joblib.load(best_params_path)
+        print(f'Best params for {model_name}:')
+        print(self.models[model_name]['params'])
     
   def train(self):
     x_train_path = os.path.join(script_dir, 'data/x_train.npy')
@@ -66,18 +75,23 @@ class ModelTrainer:
         
     for model_name, model_data in self.models.items():
       model = model_data['model']
-      if self.best_params[model_name]:
-        model_params = self.best_params[model_name]
-        model.set_params(**model_params)
+      model.set_params(**model_data['params'])
       model.fit(x_train, y_train)
       
+      # Sauvegarde du modèle
       model_path = os.path.join(script_dir, f'model/{model_name}.pkl')
       joblib.dump(model, model_path)
       
+      # Score du modèle
       score = model.score(x_test, y_test)
       print(f'{model_name} score: {score}')
-            
+      
+      # Save score
+      score_path = os.path.join(script_dir, f'model/{model_name}_score.txt')
+      with open(score_path, 'w') as f:
+        f.write(str(score))
+        print(f'Score {score_path}')
         
 if __name__ == '__main__':
   trainer = ModelTrainer()
-  trainer.train()
+  # trainer.train()
