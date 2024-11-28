@@ -91,19 +91,20 @@ class HyperparameterOptimizer:
         # Inconvénients : Peut être instable sur petits datasets
         'model': LGBMRegressor(),
         'params': {
-          'n_estimators': [100, 200, 500],      # Nombre d'arbres
-          'max_depth': [2, 5, 10],              # Profondeur max des arbres (-1 = illimité)
-          'learning_rate': [0.01, 0.1],         # Taux d'apprentissage
-          'num_leaves': [31, 50, 100],          # Nombre de feuilles max
+          'n_estimators': [100, 200],           # Nombre d'arbres
+          'max_depth': [3, 5, 7],               # Profondeur max des arbres (-1 = illimité)
+          'learning_rate': [0.1, 0.01],         # Taux d'apprentissage
+          'num_leaves': [10, 20, 31],           # Nombre de feuilles max
           
           # Paramètres de régularisation
-          'min_child_samples': [20, 50],        # Nombre min d'échantillons par feuille
-          'reg_alpha': [0.01, 0.1, 0.5],        # L1 regularization
-          'reg_lambda': [0.01, 0.1, 0.5],       # L2 regularization
+          'min_child_samples': [5, 10, 20],        # Nombre min d'échantillons par feuille
+          'reg_alpha': [0.1, 0.01],        # L1 regularization
+          'reg_lambda': [0.1, 0.01],       # L2 regularization
           
           # Paramètres d'échantillonnage
-          'subsample': [0.8, 1.0],              # Ratio d'échantillons par arbre
-          'colsample_bytree': [0.8, 1.0]        # Ratio de features par arbre
+          'subsample': [0.8],              # Ratio d'échantillons par arbre
+          'colsample_bytree': [0.8],       # Ratio de features par arbre
+          'min_split_gain': [0.01, 0.1, 0.2]    # Gain min pour diviser un noeud
         }
       }
     }
@@ -278,14 +279,14 @@ class HyperparameterOptimizer:
       result_path = os.path.join(script_dir, f"model/{result['model']}_best_params.pkl")
       joblib.dump(result['best_params'], result_path)
       
-      # Sauvegarde des résultats
-      result_df = pd.DataFrame([result])
-      result_df_path = os.path.join(script_dir, f"model/{result['model']}_best_params_results.csv")
-      result_df.to_csv(result_df_path, index=False)
-      print(f"Results saved to {result_df_path}")
-    
+    # Meilleur modèle    
     print(f"\nBest model: {best_model_name}")
     print(f"Best parameters: {best_params}")
+    
+    # Sauvegarde des résultats
+    results_df = pd.DataFrame(self.results)
+    results_df.to_csv(os.path.join(script_dir, 'model/results.csv'), index=False)
+
     
 if __name__ == '__main__':
   optimizer = HyperparameterOptimizer()

@@ -1,2 +1,0 @@
-model,best_params,train_mse,test_mse,train_r2,test_r2
-ElasticNet,"{'alpha': 0.1, 'l1_ratio': 0.9}",44724125.14439843,40517802.30412927,0.6913395073200461,0.71125442187891

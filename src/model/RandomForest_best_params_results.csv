@@ -1,2 +1,0 @@
-model,best_params,train_mse,test_mse,train_r2,test_r2
-RandomForest,"{'max_depth': 30, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 500}",3469984.8672749237,24181100.98840704,0.9760521366205146,0.8276760932862719

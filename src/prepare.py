@@ -174,7 +174,11 @@ class FrenchSecondHandCarsDataPreparator:
     self.labelEncoderBoiteVitesse = LabelEncoder()
     self.labelEncoderPuissance = LabelEncoder()
     self.labelEncoderCouleur = LabelEncoder()
-    self.standardScaler = StandardScaler()
+    self.priceScaler = StandardScaler()
+    self.yearScaler = StandardScaler()
+    self.kilometerScaler = StandardScaler()
+    self.nombredeportesScaler = StandardScaler()
+    self.powerScaler = StandardScaler()
     self._load_data()
 
   def _load_data(self):
@@ -337,8 +341,6 @@ class FrenchSecondHandCarsDataPreparator:
     self.data['premièremain(déclaratif)'] = self.data['premièremain(déclaratif)'].apply(lambda x: 1 if 'oui' in str(x).lower() else 0)
     
     self.data.reset_index(drop=True, inplace=True)
-
-    self.data.info()
     
   def remobe_outliers(self):
     # Remove kilométragecompteur outliers
@@ -352,6 +354,15 @@ class FrenchSecondHandCarsDataPreparator:
     Q3 = self.data['price'].quantile(0.75)
     IQR = Q3 - Q1
     self.data = self.data[(self.data['price'] >= (Q1 - 1.5 * IQR)) & (self.data['price'] <= (Q3 + 1.5 * IQR))]
+    
+    self.data.reset_index(drop=True, inplace=True)
+    
+  def normalize(self):
+    self.data['price'] = self.priceScaler.fit_transform(self.data[['price']])
+    self.data['année'] = self.yearScaler.fit_transform(self.data[['année']])
+    self.data['kilométragecompteur'] = self.kilometerScaler.fit_transform(self.data[['kilométragecompteur']])
+    self.data['nombredeportes'] = self.nombredeportesScaler.fit_transform(self.data[['nombredeportes']])
+    self.data['puissancefiscale'] = self.powerScaler.fit_transform(self.data[['puissancefiscale']])
     
   def visualizations(self):
     # Matrice de corelation
@@ -548,6 +559,8 @@ class FrenchSecondHandCarsDataPreparator:
     )
 
   def save(self):
+    self.data.info()
+    
     # LabelEncoder
     ds_encoder_carmodel_path = os.path.join(script_dir, 'model/dataset_encoder_carmodel.pkl')
     with open(ds_encoder_carmodel_path, 'wb') as fichier:
@@ -564,7 +577,28 @@ class FrenchSecondHandCarsDataPreparator:
     ds_encoder_couleur_path = os.path.join(script_dir, 'model/dataset_encoder_couleur.pkl')
     with open(ds_encoder_couleur_path, 'wb') as fichier:
       pickle.dump(self.labelEncoderCouleur, fichier)
+      
+    # Save StandardScalers
+    ds_price_scaler_path = os.path.join(script_dir, 'model/dataset_scaler_price.pkl')
+    with open(ds_price_scaler_path, 'wb') as fichier:
+      pickle.dump(self.priceScaler, fichier)
+
+    ds_year_scaler_path = os.path.join(script_dir, 'model/dataset_scaler_year.pkl')
+    with open(ds_year_scaler_path, 'wb') as fichier:
+      pickle.dump(self.yearScaler, fichier)
     
+    ds_kilometer_scaler_path = os.path.join(script_dir, 'model/dataset_scaler_kilometer.pkl')
+    with open(ds_kilometer_scaler_path, 'wb') as fichier:
+      pickle.dump(self.kilometerScaler, fichier)
+    
+    ds_nombredeportes_scaler_path = os.path.join(script_dir, 'model/dataset_scaler_nombredeportes.pkl')
+    with open(ds_nombredeportes_scaler_path, 'wb') as fichier:
+      pickle.dump(self.nombredeportesScaler, fichier)
+    
+    ds_power_scaler_path = os.path.join(script_dir, 'model/dataset_scaler_power.pkl')
+    with open(ds_power_scaler_path, 'wb') as fichier:
+      pickle.dump(self.powerScaler, fichier)
+        
     # Save train and test data
     self._split()
     
@@ -583,4 +617,5 @@ if __name__ == '__main__':
   data_preparator.encode()
   data_preparator.remobe_outliers()
   data_preparator.visualizations()
+  data_preparator.normalize()
   data_preparator.save()
