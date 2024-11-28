@@ -3,12 +3,11 @@ import datetime
 import joblib
 import numpy as np
 import pandas as pd
-from lightgbm import LGBMRegressor
 from dataclasses import dataclass
 from typing import Dict, Any
 
 script_dir = os.path.dirname(__file__)
-current_model_path = os.path.join(script_dir, 'model/LGBMRegressor_model.pkl')
+current_model_path = os.path.join(script_dir, 'model/GradientBoosting_model.pkl')
 
 @dataclass
 class CarFeatures:
@@ -25,18 +24,18 @@ class CarFeatures:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'CarFeatures':
-        return cls(
-            carmodel=data['carmodel'].lower(),
-            year=data['année'],
-            mileage=data['kilométragecompteur'],
-            energy=data['énergie'],
-            gearbox=data['boîtedevitesse'],
-            color=data['couleurextérieure'],
-            doors=data['nombredeportes'],
-            first_hand=data['premièremain(déclaratif)'],
-            power=data['puissancefiscale'],
-            metallic_color=data['couleurextérieure_métallisée']
-        )
+      return cls(
+          carmodel=data['carmodel'].lower(),
+          year=data['year'],
+          mileage=data['mileage'],
+          energy=data['energy'].lower(),
+          gearbox=data['gearbox'].lower(),
+          color=data['color'].lower(),
+          doors=data['doors'],
+          first_hand=data['first_hand'],
+          power=data['power'],
+          metallic_color=data['metallic_color']
+      )        
 
 class FrenchSecondHandCarsClient:
   def __init__(self, model_path=current_model_path):
@@ -77,7 +76,7 @@ class FrenchSecondHandCarsClient:
     self.scalers["price"] = joblib.load(os.path.join(script_dir, 'model/dataset_scaler_price.pkl'))
     self.scalers["year"] = joblib.load(os.path.join(script_dir, 'model/dataset_scaler_year.pkl'))
     
-  def _transform_features(self, features: CarFeatures) -> np.ndarray:
+  def _features_to_array(self, features: CarFeatures) -> np.ndarray:
     # Créer les DataFrames individuels avec les bons noms de colonnes
     year_df = pd.DataFrame([[features.year]], columns=['année'])
     mileage_df = pd.DataFrame([[features.mileage]], columns=['kilométragecompteur'])
@@ -107,46 +106,46 @@ class FrenchSecondHandCarsClient:
     Predict the price of a car based on its features.
     
     Args:
-        car_data (Dict[str, Any]): A dictionary containing the car features in French:
-        {
-            'carmodel': str,                      # Ex: 'RENAULT TWINGO 3'
-            'année': int,                         # Ex: 2020
-            'kilométragecompteur': int,           # Ex: 27297
-            'énergie': str,                       # Ex: 'essence'
-            'boîtedevitesse': str,                # Ex: 'mécanique'
-            'couleurextérieure': str,             # Ex: 'gris'
-            'nombredeportes': int,                # Ex: 5
-            'premièremain(déclaratif)': bool,     # Ex: True
-            'puissancefiscale': int,              # Ex: 5
-            'couleurextérieure_métallisée': bool  # Ex: False
-        }
+      car_data (Dict[str, Any]): A dictionary containing the car features:
+      {
+        'carmodel': str,        # Ex: 'RENAULT TWINGO 3'
+        'year': int,            # Ex: 2020
+        'mileage': int,         # Ex: 27297
+        'energy': str,          # Ex: 'essence'
+        'gearbox': str,         # Ex: 'mécanique'
+        'color': str,           # Ex: 'gris'
+        'doors': int,           # Ex: 5
+        'first_hand': bool,     # Ex: True
+        'power': int,           # Ex: 5
+        'metallic_color': bool  # Ex: False
+      }
 
     Returns:
-        float: _description_
+      float: price of the car
     """
     features = CarFeatures.from_dict(car_data)
-    transformed_features = self._transform_features(features)
-    prediction = self.model.predict(transformed_features.reshape(1, -1))
+    features_array = self._features_to_array(features)
+    prediction = self.model.predict(features_array.reshape(1, -1))
     return float(self.scalers['price'].inverse_transform(prediction.reshape(-1, 1))[0][0])
 
 if __name__ == '__main__':
   datestart = datetime.datetime.now()
   
   # Client initialization
-  client = FrenchSecondHandCarsClient(model_path)
+  client = FrenchSecondHandCarsClient()
   
   # Data
   entry = {
     'carmodel': 'RENAULT TWINGO 3'.lower(),
-    'année': 2020,
-    'kilométragecompteur': 27297,
-    'énergie': 'essence',
-    'boîtedevitesse': 'mécanique',
-    'couleurextérieure': 'gris',
-    'nombredeportes': 5,
-    'premièremain(déclaratif)': True,
-    'puissancefiscale': 5,
-    'couleurextérieure_métallisée': False
+    'year': 2020,
+    'mileage': 27297,
+    'energy': 'essence',
+    'gearbox': 'mécanique',
+    'color': 'gris',
+    'doors': 5,
+    'first_hand': True,
+    'power': 5,
+    'metallic_color': False
   }
   real_value = 11080
   
