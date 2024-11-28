@@ -172,7 +172,6 @@ class FrenchSecondHandCarsDataPreparator:
     self.labelEncoderCarmodel = LabelEncoder()
     self.labelEncoderEnergie = LabelEncoder()
     self.labelEncoderBoiteVitesse = LabelEncoder()
-    self.labelEncoderPuissance = LabelEncoder()
     self.labelEncoderCouleur = LabelEncoder()
     self.priceScaler = StandardScaler()
     self.yearScaler = StandardScaler()
@@ -565,15 +564,15 @@ class FrenchSecondHandCarsDataPreparator:
     ds_encoder_carmodel_path = os.path.join(script_dir, 'model/dataset_encoder_carmodel.pkl')
     with open(ds_encoder_carmodel_path, 'wb') as fichier:
       pickle.dump(self.labelEncoderCarmodel, fichier)
+    
     ds_encoder_energie_path = os.path.join(script_dir, 'model/dataset_encoder_energie.pkl')
     with open(ds_encoder_energie_path, 'wb') as fichier:
       pickle.dump(self.labelEncoderEnergie, fichier)
+    
     ds_encoder_boite_path = os.path.join(script_dir, 'model/dataset_encoder_boite.pkl')
     with open(ds_encoder_boite_path, 'wb') as fichier:
       pickle.dump(self.labelEncoderBoiteVitesse, fichier)
-    ds_encoder_puissance_path = os.path.join(script_dir, 'model/dataset_encoder_puissance.pkl')
-    with open(ds_encoder_puissance_path, 'wb') as fichier:
-      pickle.dump(self.labelEncoderPuissance, fichier)
+    
     ds_encoder_couleur_path = os.path.join(script_dir, 'model/dataset_encoder_couleur.pkl')
     with open(ds_encoder_couleur_path, 'wb') as fichier:
       pickle.dump(self.labelEncoderCouleur, fichier)
