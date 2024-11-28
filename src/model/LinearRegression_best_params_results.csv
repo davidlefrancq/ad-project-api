@@ -1,0 +1,2 @@
+model,best_params,train_mse,test_mse,train_r2,test_r2
+LinearRegression,{},44697066.291212834,40482021.70661365,0.6915262521457672,0.7115094082979071

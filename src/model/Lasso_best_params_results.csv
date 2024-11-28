@@ -1,0 +1,2 @@
+model,best_params,train_mse,test_mse,train_r2,test_r2
+Lasso,"{'alpha': 0.1, 'selection': 'cyclic'}",44697066.51394036,40482104.73198828,0.6915262506086284,0.7115088166268777

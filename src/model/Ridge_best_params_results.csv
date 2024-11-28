@@ -1,0 +1,2 @@
+model,best_params,train_mse,test_mse,train_r2,test_r2
+Ridge,"{'alpha': 1.0, 'solver': 'svd'}",44697161.96150772,40482806.445573546,0.6915255918837664,0.7115038159436391
