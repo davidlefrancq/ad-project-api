@@ -96,7 +96,7 @@ Train R²: -0.03108331548834964
 Test R²: -0.03297800785792915
 ```
 
-### Best Model
+## Best Model
 LGBMRegressor
 ```json
 {
