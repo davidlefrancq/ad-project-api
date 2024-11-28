@@ -95,3 +95,19 @@ Test MSE: 144951133.0329316
 Train R²: -0.03108331548834964
 Test R²: -0.03297800785792915
 ```
+
+### Best Model
+LGBMRegressor
+```json
+{
+  'colsample_bytree': 0.8,
+  'learning_rate': 0.1,
+  'max_depth': 5,
+  'min_child_samples': 20,
+  'n_estimators': 200,
+  'num_leaves': 31,
+  'reg_alpha': 0.01,
+  'reg_lambda': 0.1,
+  'subsample': 0.8
+}
+```
