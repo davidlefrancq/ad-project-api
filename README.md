@@ -97,7 +97,7 @@ Test R²: -0.03297800785792915
 ```
 
 ## Best Model
-LGBMRegressor
+### LGBMRegressor
 ```json
 {
   'colsample_bytree': 0.8,
