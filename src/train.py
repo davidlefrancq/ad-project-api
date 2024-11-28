@@ -79,7 +79,7 @@ class ModelTrainer:
       model.fit(x_train, y_train)
       
       # Sauvegarde du modèle
-      model_path = os.path.join(script_dir, f'model/{model_name}.pkl')
+      model_path = os.path.join(script_dir, f'model/{model_name}_model.pkl')
       joblib.dump(model, model_path)
       
       # Score du modèle
@@ -94,4 +94,4 @@ class ModelTrainer:
         
 if __name__ == '__main__':
   trainer = ModelTrainer()
-  # trainer.train()
+  trainer.train()
