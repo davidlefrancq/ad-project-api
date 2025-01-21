@@ -12,6 +12,7 @@ dependencies = [
     "pandas>=2.2.3",
     "joblib>=1.4.2",
     "scikit-learn>=1.5.2",
+    "python-logstash>=0.4.8",
 ]
 requires-python = "==3.11.*"
 readme = "README.md"
@@ -34,7 +35,7 @@ distribution = false
 [tool.pdm.scripts]
 start = "python src/main.py"
 docker = {shell = "docker buildx build -t ad_project_api . && docker run --publish 8000:80 ad_project_api"}
-prepare = "python src/prepare.py"
+prepare = {shell = "python src/prepare.py && python src/utils/encoders_values_extractor.py"}
 optimize = "python src/optimize.py"
 train = "python src/train.py"
 client = "python src/client.py"

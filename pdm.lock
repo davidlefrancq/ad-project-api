@@ -5,7 +5,7 @@
 groups = ["default", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:e737fd62c142b9fd1ef78d78b68f86a3f0dd7de7c14eba6e0f9c9fde708d88b1"
+content_hash = "sha256:2440cecc64b5d71e651b2ec0c5a90ddf752c3415a9869fe3be1bcaa1e3d3a12f"
 
 [[metadata.targets]]
 requires_python = "==3.11.*"
@@ -607,6 +607,15 @@ dependencies = [
 files = [
     {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
     {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
+]
+
+[[package]]
+name = "python-logstash"
+version = "0.4.8"
+summary = "Python logging handler for Logstash."
+groups = ["default"]
+files = [
+    {file = "python-logstash-0.4.8.tar.gz", hash = "sha256:d04e1ce11ecc107e4a4f3b807fc57d96811e964a554081b3bbb44732f74ef5f9"},
 ]
 
 [[package]]
