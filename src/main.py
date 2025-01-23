@@ -6,7 +6,7 @@ import uvicorn
 
 app = FastAPI()
 
-IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com"
+IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com/"
 
 # Configuration du CORS
 app.add_middleware(
