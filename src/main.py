@@ -3,10 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from client import FrenchSecondHandCarsClient
 from typing import Dict, Any
 import uvicorn
+import os
 
 app = FastAPI()
 
 IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com/"
+PORT = int(os.environ.get('PORT', 80))
 
 # Configuration du CORS
 app.add_middleware(
@@ -113,4 +115,4 @@ async def predict_price(car_data: Dict[str, Any]):
     raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-  uvicorn.run("main:app", host="0.0.0.0", port=80, reload=False)
+  uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=False)
