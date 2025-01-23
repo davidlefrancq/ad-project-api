@@ -6,11 +6,13 @@ import uvicorn
 
 app = FastAPI()
 
+IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com"
+
 # Configuration du CORS
 app.add_middleware(
     CORSMiddleware,
     # Liste des origines autorisées (vous pouvez ajuster selon vos besoins)
-    allow_origins=["http://localhost:5173", "http://57.128.24.53:8294"],  # Origine de votre app Vue.js
+    allow_origins=[IHM_ORIGIN],  # Origine de votre app Vue.js
     allow_credentials=True,
     allow_methods=["*"],  # Autorise toutes les méthodes HTTP
     allow_headers=["*"],  # Autorise tous les headers
