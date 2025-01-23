@@ -7,7 +7,7 @@ import os
 
 app = FastAPI()
 
-IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com/"
+IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com"
 PORT = int(os.environ.get('PORT', 80))
 
 # Configuration du CORS
