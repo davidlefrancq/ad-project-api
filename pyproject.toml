@@ -34,6 +34,7 @@ distribution = false
 
 [tool.pdm.scripts]
 start = "python src/main.py"
+export = {shell = "pdm export -o requirements.txt --without-hashes"}
 docker = {shell = "docker buildx build -t ad_project_api . && docker run --publish 8000:80 ad_project_api"}
 prepare = {shell = "python src/prepare.py && python src/utils/encoders_values_extractor.py"}
 optimize = "python src/optimize.py"
