@@ -34,13 +34,13 @@ pythonpath = "."
 distribution = false
 
 [tool.pdm.scripts]
-start = "python src/main.py"
+start = "python main.py"
 export = {shell = "pdm export -o requirements.txt --without-hashes --prod"}
 docker = {shell = "docker buildx build -t ad_project_api . && docker run --publish 8000:80 ad_project_api"}
-prepare = {shell = "python src/prepare.py && python src/utils/encoders_values_extractor.py"}
-optimize = "python src/optimize.py"
-train = "python src/train.py"
-client = "python src/client.py"
+prepare = {shell = "python prepare.py && python utils/encoders_values_extractor.py"}
+optimize = "python optimize.py"
+train = "python train.py"
+client = "python client.py"
 test = {shell = "python -c \"import datetime; print('Running tests ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')); import os; os.system('pytest tests/test_client_current.py -v --html=report/report-' + datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + '.html --self-contained-html')\""}
 testall = {shell = "python -c \"import datetime; print('Running tests ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')); import os; os.system('pytest tests/ -v --html=report/report-' + datetime.datetime.now().strftime('%Y%m%d_%H%M%S') + '.html --self-contained-html')\""}
 
