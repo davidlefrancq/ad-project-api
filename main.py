@@ -1,13 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from client import FrenchSecondHandCarsClient
+from src.client import FrenchSecondHandCarsClient
 from typing import Dict, Any
 import uvicorn
 import os
 
 app = FastAPI()
 
-IHM_ORIGIN = "https://ad-project-ihm-94075e9cf8a1.herokuapp.com"
+IHM_ORIGIN = os.environ.get('IHM_ORIGIN', "http://localhost")
 PORT = int(os.environ.get('PORT', 80))
 
 # Configuration du CORS
