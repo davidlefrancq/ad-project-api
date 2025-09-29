@@ -341,7 +341,7 @@ class FrenchSecondHandCarsDataPreparator:
     
     self.data.reset_index(drop=True, inplace=True)
     
-  def remobe_outliers(self):
+  def remove_outliers(self):
     # Remove kilométragecompteur outliers
     Q1 = self.data['kilométragecompteur'].quantile(0.25)
     Q3 = self.data['kilométragecompteur'].quantile(0.75)
@@ -614,7 +614,7 @@ class FrenchSecondHandCarsDataPreparator:
 if __name__ == '__main__':
   data_preparator = FrenchSecondHandCarsDataPreparator(data_path='data/dataset.csv')
   data_preparator.encode()
-  data_preparator.remobe_outliers()
+  data_preparator.remove_outliers()
   data_preparator.visualizations()
   data_preparator.normalize()
   data_preparator.save()
